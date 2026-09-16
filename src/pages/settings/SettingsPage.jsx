@@ -5,7 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 
 export function SettingsPage() {
   const { role } = useAuth();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const parentPath = role === "vendor" ? "/vendor/dashboard" : "/dashboard";
   const parentLabel = role === "vendor" ? t("settings.vendorDashboard") : t("nav.dashboard");
 
@@ -43,11 +43,11 @@ export function SettingsPage() {
         <h3>{t("settings.language")}</h3>
         <p style={{ color: "var(--muted)", marginBottom: "8px", fontSize: "14px" }}>{t("settings.languageDesc")}</p>
         <p style={{ color: "var(--muted)", fontSize: "13px" }}>
-          {t("language.label")}: <strong style={{ color: "var(--ink)" }}>{t(`language.${["en","hi","mr"].find(() => true) || "en"}`)}</strong>
+          {t("language.label")}: <strong style={{ color: "var(--ink)" }}>{t(`language.${i18n.language || "en"}`)}</strong>
           {" "}— {t("language.en")} / {t("language.hi")} / {t("language.mr")}
         </p>
         <p style={{ color: "var(--muted)", fontSize: "12px", marginTop: "8px" }}>
-          Use the language selector (<strong>🌐</strong>) in the top navigation bar to switch languages.
+          {t("settings.languageSelectorHint")}
         </p>
       </section>
     </div>

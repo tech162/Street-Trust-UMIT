@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
 
 export function AppLayout() {
+  const location = useLocation();
+
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem("st_theme") || "light";
   });
@@ -11,6 +13,8 @@ export function AppLayout() {
   const [collapsed, setCollapsed] = useState(() => {
     return localStorage.getItem("st_sidebar_collapsed") === "true";
   });
+
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -21,6 +25,12 @@ export function AppLayout() {
     localStorage.setItem("st_sidebar_collapsed", String(collapsed));
   }, [collapsed]);
 
+  // Close mobile sidebar on route change
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
+
+  // Ctrl+B shortcut for desktop sidebar collapse
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "b") {
@@ -36,15 +46,32 @@ export function AppLayout() {
 
   return (
     <div className="app-shell" data-theme={theme}>
-      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+      {/* Mobile Drawer Backdrop */}
+      {mobileOpen && (
+        <div
+          className="sidebar-backdrop"
+          onClick={() => setMobileOpen(false)}
+          aria-label="Close menu"
+        />
+      )}
+
+      <Sidebar
+        collapsed={collapsed}
+        setCollapsed={setCollapsed}
+        mobileOpen={mobileOpen}
+        setMobileOpen={setMobileOpen}
+      />
+
       <div className={"main-area " + (collapsed ? "expanded-main" : "")}>
         <Topbar
           theme={theme}
           toggleTheme={toggleTheme}
           collapsed={collapsed}
           setCollapsed={setCollapsed}
+          mobileOpen={mobileOpen}
+          setMobileOpen={setMobileOpen}
         />
-        <main>
+        <main key={location.pathname} className="page-enter">
           <Outlet />
         </main>
       </div>

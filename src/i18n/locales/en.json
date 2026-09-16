@@ -148,7 +148,8 @@
     "languageDesc": "Select your preferred language for the interface.",
     "theme": "Theme",
     "themeDesc": "Choose between light and dark mode.",
-    "vendorDashboard": "Vendor Dashboard"
+    "vendorDashboard": "Vendor Dashboard",
+    "languageSelectorHint": "Use the language selector (🌐) in the top navigation bar to switch languages."
   },
   "public": {
     "searchTitle": "Verify a Food Vendor",

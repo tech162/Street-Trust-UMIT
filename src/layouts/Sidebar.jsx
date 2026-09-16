@@ -9,7 +9,7 @@ import {
 import { Logo } from "../components/Logo";
 import { useAuth } from "../context/AuthContext";
 
-export function Sidebar({ collapsed, setCollapsed }) {
+export function Sidebar({ collapsed, setCollapsed, mobileOpen, setMobileOpen }) {
   const { role, logout } = useAuth();
   const { t } = useTranslation();
 
@@ -38,8 +38,12 @@ export function Sidebar({ collapsed, setCollapsed }) {
 
   const items = role === "inspector" ? inspectorItems : vendorItems;
 
+  const handleNavClick = () => {
+    if (setMobileOpen) setMobileOpen(false);
+  };
+
   return (
-    <aside className={"sidebar " + (collapsed ? "collapsed" : "")}>
+    <aside className={"sidebar " + (collapsed ? "collapsed " : "") + (mobileOpen ? "mobile-open" : "")}>
       <div className="side-header">
         <Logo />
         <button
@@ -62,6 +66,7 @@ export function Sidebar({ collapsed, setCollapsed }) {
             className={({ isActive }) => (isActive ? "nav-active" : "")}
             title={label}
             end={to === "/dashboard" || to === "/vendor/dashboard"}
+            onClick={handleNavClick}
           >
             <Icon size={18} />
             <span>{label}</span>

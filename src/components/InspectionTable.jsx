@@ -32,8 +32,18 @@ export function InspectionTable({ rows }) {
                 <td>{r.last}</td>
                 <td><Status>{r.status}</Status></td>
                 <td>
-                  <strong className="score-text">{r.score}</strong>
-                  <span className="outof">/100</span>
+                  <div className="score-bar-wrap">
+                    <div className="score-num">
+                      <strong className="score-text">{r.score}</strong>
+                      <span className="outof">/100</span>
+                    </div>
+                    <div className="score-bar-track">
+                      <div
+                        className={`score-bar-fill ${r.score >= 85 ? "green" : r.score >= 70 ? "amber" : "red"}`}
+                        style={{ width: `${r.score}%` }}
+                      />
+                    </div>
+                  </div>
                 </td>
                 <td>
                   <Link to={`/vendors/${vendorId}`} className="ghost-btn">

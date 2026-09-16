@@ -83,8 +83,18 @@ export function VendorsPage() {
                   <td>{v.category}</td>
                   <td>{v.area}</td>
                   <td>
-                    <strong className="score-text">{v.score}</strong>
-                    <span className="outof">/100</span>
+                    <div className="score-bar-wrap">
+                      <div className="score-num">
+                        <strong className="score-text">{v.score}</strong>
+                        <span className="outof">/100</span>
+                      </div>
+                      <div className="score-bar-track">
+                        <div
+                          className={`score-bar-fill ${v.score >= 85 ? "green" : v.score >= 70 ? "amber" : "red"}`}
+                          style={{ width: `${v.score}%` }}
+                        />
+                      </div>
+                    </div>
                   </td>
                   <td>{v.last}</td>
                   <td><Status>{v.status}</Status></td>
