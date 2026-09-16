@@ -1,12 +1,15 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Bell, Menu, Search } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Breadcrumbs } from "../components/Breadcrumbs";
 import { ThemeToggle } from "../components/ThemeToggle";
+import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { useAuth } from "../context/AuthContext";
 
 export function Topbar({ theme, toggleTheme, collapsed, setCollapsed }) {
   const { role, user } = useAuth();
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const profilePath = role === "vendor" ? "/vendor/profile" : "/profile";
@@ -24,14 +27,15 @@ export function Topbar({ theme, toggleTheme, collapsed, setCollapsed }) {
       <div className="topbar-center">
         <div className="global-search">
           <Search size={17} />
-          <input placeholder="Search vendors, reports..." />
+          <input placeholder={t("common.search")} />
         </div>
       </div>
       <div className="top-actions">
+        <LanguageSwitcher />
         <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
         <button
           className="icon-btn"
-          title="Notifications"
+          title={t("common.notifications")}
           onClick={() => navigate(notificationsPath)}
         >
           <Bell size={19} />
@@ -39,7 +43,7 @@ export function Topbar({ theme, toggleTheme, collapsed, setCollapsed }) {
         </button>
         <button
           className="avatar"
-          title={user?.name || "Profile"}
+          title={user?.name || t("common.profile")}
           onClick={() => navigate(profilePath)}
         >
           {avatarInitials}

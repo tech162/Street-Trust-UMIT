@@ -1,12 +1,13 @@
 import React from "react";
-import { Building2, Sliders } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { BackButton } from "../../components/BackButton";
 import { useAuth } from "../../context/AuthContext";
 
 export function SettingsPage() {
   const { role } = useAuth();
+  const { t } = useTranslation();
   const parentPath = role === "vendor" ? "/vendor/dashboard" : "/dashboard";
-  const parentLabel = role === "vendor" ? "Vendor Dashboard" : "Dashboard";
+  const parentLabel = role === "vendor" ? t("settings.vendorDashboard") : t("nav.dashboard");
 
   return (
     <div className="page">
@@ -14,28 +15,40 @@ export function SettingsPage() {
 
       <div className="page-heading">
         <div>
-          <span className="eyebrow">SYSTEM SETTINGS</span>
-          <h1>Preferences & Workspace</h1>
-          <p>Configure notification thresholds and system preferences.</p>
+          <span className="eyebrow">{t("settings.eyebrow")}</span>
+          <h1>{t("settings.title")}</h1>
+          <p>{t("settings.subtitle")}</p>
         </div>
       </div>
 
       <section className="panel">
-        <h3>Workspace Preferences</h3>
+        <h3>{t("settings.workspacePreferences")}</h3>
         <div style={{ display: "flex", flexDirection: "column", gap: "15px", marginTop: "15px" }}>
           <label className="checkbox">
             <input type="checkbox" defaultChecked />
-            <span>Enable instant email alerts for non-compliant field reports</span>
+            <span>{t("settings.emailAlerts")}</span>
           </label>
           <label className="checkbox">
             <input type="checkbox" defaultChecked />
-            <span>Auto-save draft checklist entries every 30 seconds</span>
+            <span>{t("settings.autoSave")}</span>
           </label>
           <label className="checkbox">
             <input type="checkbox" defaultChecked />
-            <span>Show high-risk vendor pins on map landing page</span>
+            <span>{t("settings.highRiskPins")}</span>
           </label>
         </div>
+      </section>
+
+      <section className="panel" style={{ marginTop: "16px" }}>
+        <h3>{t("settings.language")}</h3>
+        <p style={{ color: "var(--muted)", marginBottom: "8px", fontSize: "14px" }}>{t("settings.languageDesc")}</p>
+        <p style={{ color: "var(--muted)", fontSize: "13px" }}>
+          {t("language.label")}: <strong style={{ color: "var(--ink)" }}>{t(`language.${["en","hi","mr"].find(() => true) || "en"}`)}</strong>
+          {" "}— {t("language.en")} / {t("language.hi")} / {t("language.mr")}
+        </p>
+        <p style={{ color: "var(--muted)", fontSize: "12px", marginTop: "8px" }}>
+          Use the language selector (<strong>🌐</strong>) in the top navigation bar to switch languages.
+        </p>
       </section>
     </div>
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Bell, Building2, ClipboardCheck, FileText, LayoutDashboard, LogOut,
   MapPin, PanelLeftClose, PanelLeftOpen, QrCode, ShieldCheck, Store,
@@ -10,28 +11,29 @@ import { useAuth } from "../context/AuthContext";
 
 export function Sidebar({ collapsed, setCollapsed }) {
   const { role, logout } = useAuth();
+  const { t } = useTranslation();
 
   const inspectorItems = [
-    ["Dashboard", "/dashboard", LayoutDashboard],
-    ["Vendors", "/vendors", Users],
-    ["Inspections", "/inspections", ClipboardCheck],
-    ["Reports", "/reports", FileText],
-    ["Map", "/map", MapPin],
-    ["Notifications", "/notifications", Bell],
-    ["Profile", "/profile", UserRound],
-    ["Settings", "/settings", Building2]
+    [t("nav.dashboard"), "/dashboard", LayoutDashboard],
+    [t("nav.vendors"), "/vendors", Users],
+    [t("nav.inspections"), "/inspections", ClipboardCheck],
+    [t("nav.reports"), "/reports", FileText],
+    [t("nav.map"), "/map", MapPin],
+    [t("nav.notifications"), "/notifications", Bell],
+    [t("nav.profile"), "/profile", UserRound],
+    [t("nav.settings"), "/settings", Building2]
   ];
 
   const vendorItems = [
-    ["Dashboard", "/vendor/dashboard", LayoutDashboard],
-    ["My Profile", "/vendor/profile", UserRound],
-    ["Documents", "/vendor/documents", FileText],
-    ["Inspections", "/vendor/inspections", ClipboardCheck],
-    ["Compliance", "/vendor/compliance", ShieldCheck],
-    ["Reports", "/vendor/reports", FileText],
-    ["QR Verification", "/vendor/qr", QrCode],
-    ["Notifications", "/vendor/notifications", Bell],
-    ["Settings", "/vendor/settings", Building2]
+    [t("nav.dashboard"), "/vendor/dashboard", LayoutDashboard],
+    [t("nav.myProfile"), "/vendor/profile", UserRound],
+    [t("nav.documents"), "/vendor/documents", FileText],
+    [t("nav.inspections"), "/vendor/inspections", ClipboardCheck],
+    [t("nav.compliance"), "/vendor/compliance", ShieldCheck],
+    [t("nav.reports"), "/vendor/reports", FileText],
+    [t("nav.qrVerification"), "/vendor/qr", QrCode],
+    [t("nav.notifications"), "/vendor/notifications", Bell],
+    [t("nav.settings"), "/vendor/settings", Building2]
   ];
 
   const items = role === "inspector" ? inspectorItems : vendorItems;
@@ -50,7 +52,7 @@ export function Sidebar({ collapsed, setCollapsed }) {
         </button>
       </div>
       <div className="side-role">
-        <span>{role === "inspector" ? "AUTHORIZED INSPECTOR" : "REGISTERED VENDOR"}</span>
+        <span>{role === "inspector" ? t("nav.authorizedInspector") : t("nav.registeredVendor")}</span>
       </div>
       <nav>
         {items.map(([label, to, Icon]) => (
@@ -67,15 +69,15 @@ export function Sidebar({ collapsed, setCollapsed }) {
         ))}
       </nav>
       <div className="side-bottom">
-        <div className="security-card" title="Secure workspace · Protected access">
+        <div className="security-card" title={t("common.secureWorkspace")}>
           <ShieldCheck size={18} />
           <div>
-            <strong>Secure workspace</strong>
-            <small>Protected access</small>
+            <strong>{t("common.secureWorkspace")}</strong>
+            <small>{t("common.protectedAccess")}</small>
           </div>
         </div>
-        <button className="logout" onClick={logout} title="Sign out">
-          <LogOut size={17} /> <span>Sign out</span>
+        <button className="logout" onClick={logout} title={t("common.signOut")}>
+          <LogOut size={17} /> <span>{t("common.signOut")}</span>
         </button>
       </div>
     </aside>

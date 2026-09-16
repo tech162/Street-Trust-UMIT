@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   ArrowRight, CheckCircle2, ClipboardCheck, FileText, QrCode, ShieldCheck
 } from "lucide-react";
@@ -9,59 +10,60 @@ import { InspectionTable } from "../../components/InspectionTable";
 
 export function VendorDashboardPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className="page">
       <div className="page-heading">
         <div>
-          <span className="eyebrow">VENDOR PORTAL</span>
-          <h1>Good morning, Priya.</h1>
-          <p>Here’s the latest compliance status for Shree Misal Corner.</p>
+          <span className="eyebrow">{t("vendorDashboard.eyebrow")}</span>
+          <h1>{t("vendorDashboard.greeting")}</h1>
+          <p>{t("vendorDashboard.greetingSubtitle")}</p>
         </div>
         <button className="secondary-btn" onClick={() => navigate("/vendor/qr")}>
-          <QrCode size={17} /> View QR
+          <QrCode size={17} /> {t("vendorDashboard.viewQR")}
         </button>
       </div>
 
       <div className="kpi-grid four">
-        <KPI label="Trust Score" value="92" detail="+3 since last inspection" icon={ShieldCheck} kind="green" />
-        <KPI label="Compliance" value="Good" detail="No critical issues" icon={CheckCircle2} kind="green" />
-        <KPI label="Next Inspection" value="12 Dec" detail="88 days remaining" icon={ClipboardCheck} kind="amber" />
-        <KPI label="Documents Expiring" value="1" detail="Within 30 days" icon={FileText} kind="red" />
+        <KPI label={t("vendorDashboard.kpi.trustScore")} value="92" detail={t("vendorDashboard.kpi.trustScoreDetail")} icon={ShieldCheck} kind="green" />
+        <KPI label={t("vendorDashboard.kpi.compliance")} value={t("vendorDashboard.goodStanding")} detail={t("vendorDashboard.kpi.complianceDetail")} icon={CheckCircle2} kind="green" />
+        <KPI label={t("vendorDashboard.kpi.nextInspection")} value="12 Dec" detail={t("vendorDashboard.kpi.nextInspectionDetail")} icon={ClipboardCheck} kind="amber" />
+        <KPI label={t("vendorDashboard.kpi.documentsExpiring")} value="1" detail={t("vendorDashboard.kpi.documentsExpiringDetail")} icon={FileText} kind="red" />
       </div>
 
       <div className="vendor-dash-grid">
         <section className="panel">
           <div className="panel-head">
             <div>
-              <h3>Current compliance</h3>
-              <p>Your public trust profile is healthy.</p>
+              <h3>{t("vendorDashboard.currentCompliance")}</h3>
+              <p>{t("vendorDashboard.currentComplianceDesc")}</p>
             </div>
-            <Status>Good Standing</Status>
+            <Status>{t("vendorDashboard.goodStanding")}</Status>
           </div>
           <div className="vendor-score-row">
             <div className="score-ring" style={{ "--score": 92 }}>
               <div><strong>92</strong><small>/100</small></div>
             </div>
             <div>
-              <h2>Good standing</h2>
-              <p>Last verified 12 September 2026</p>
+              <h2>{t("vendorDashboard.goodStandingTitle")}</h2>
+              <p>{t("vendorDashboard.lastVerified")}</p>
               <Link to="/vendor/compliance" className="text-btn">
-                View compliance details <ArrowRight size={15} />
+                {t("vendorDashboard.viewComplianceDetails")} <ArrowRight size={15} />
               </Link>
             </div>
           </div>
         </section>
 
         <section className="panel action-panel">
-          <h3>Action required</h3>
+          <h3>{t("vendorDashboard.actionRequired")}</h3>
           <div className="action-item">
             <div className="action-icon"><FileText /></div>
             <div>
-              <strong>Safety certificate expires soon</strong>
-              <p>Upload an updated certificate within 12 days.</p>
+              <strong>{t("vendorDashboard.certificateExpiringSoon")}</strong>
+              <p>{t("vendorDashboard.uploadCertificate")}</p>
               <Link to="/vendor/documents" className="text-btn">
-                Upload certificate <ArrowRight size={15} />
+                {t("vendorDashboard.uploadCertificateLink")} <ArrowRight size={15} />
               </Link>
             </div>
           </div>
@@ -71,11 +73,11 @@ export function VendorDashboardPage() {
       <section className="panel">
         <div className="panel-head">
           <div>
-            <h3>Recent inspection</h3>
-            <p>Your latest finalized inspection report.</p>
+            <h3>{t("vendorDashboard.recentInspection")}</h3>
+            <p>{t("vendorDashboard.recentInspectionDesc")}</p>
           </div>
           <Link to="/vendor/inspections" className="primary-btn">
-            View report <ArrowRight size={16} />
+            {t("common.viewReport")} <ArrowRight size={16} />
           </Link>
         </div>
         <InspectionTable

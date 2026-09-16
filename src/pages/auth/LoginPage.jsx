@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowRight, CheckCircle2, ClipboardCheck, Globe2, Store } from "lucide-react";
 import { Logo } from "../../components/Logo";
 import { ThemeToggle } from "../../components/ThemeToggle";
+import { LanguageSwitcher } from "../../components/LanguageSwitcher";
 import { useAuth } from "../../context/AuthContext";
 
 export function LoginPage() {
   const { login } = useAuth();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [role, setRole] = useState("inspector");
   const [email, setEmail] = useState("");
@@ -25,7 +28,7 @@ export function LoginPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!email || !password) {
-      setError("Please enter your email and password.");
+      setError(t("login.errorRequired"));
       return;
     }
     login(role);
@@ -44,52 +47,53 @@ export function LoginPage() {
   return (
     <div className="login-page" data-theme={theme}>
       <div className="login-top-right">
+        <LanguageSwitcher />
         <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
       </div>
       <div className="login-visual">
         <div className="login-visual-inner">
           <Logo dark />
           <div className="visual-copy">
-            <span className="eyebrow">INSPECTION & VERIFICATION PLATFORM</span>
-            <h1>Make every street<br /><em>safer to trust.</em></h1>
-            <p>Digitize inspections, surface compliance risks, and give the public a clear way to verify trusted food businesses.</p>
+            <span className="eyebrow">{t("login.inspectionPlatform")}</span>
+            <h1>{t("login.tagline")}<br /><em>{t("login.taglineEm")}</em></h1>
+            <p>{t("login.taglineDesc")}</p>
             <div className="trust-points">
-              <div><CheckCircle2 /> Standardized inspections</div>
-              <div><CheckCircle2 /> Evidence-backed compliance</div>
-              <div><CheckCircle2 /> Public verification</div>
+              <div><CheckCircle2 /> {t("login.trust1")}</div>
+              <div><CheckCircle2 /> {t("login.trust2")}</div>
+              <div><CheckCircle2 /> {t("login.trust3")}</div>
             </div>
           </div>
           <div className="visual-foot">
-            <span>VERIFY. INSPECT. TRUST.</span>
-            <span>© 2026 StreetTrust</span>
+            <span>{t("login.verifyInspectTrust")}</span>
+            <span>{t("login.copyright")}</span>
           </div>
         </div>
       </div>
       <div className="login-form-side">
         <div className="mobile-logo"><Logo /></div>
         <div className="login-card">
-          <span className="eyebrow">WELCOME BACK</span>
-          <h2>Sign in to StreetTrust</h2>
-          <p className="muted">Access your inspection and compliance workspace.</p>
+          <span className="eyebrow">{t("login.welcomeBack")}</span>
+          <h2>{t("login.signInTitle")}</h2>
+          <p className="muted">{t("login.signInSubtitle")}</p>
 
           <div className="role-switch">
             <button
               className={role === "inspector" ? "active" : ""}
               onClick={() => setRole("inspector")}
             >
-              <ClipboardCheck size={16} /> Inspector
+              <ClipboardCheck size={16} /> {t("login.inspector")}
             </button>
             <button
               className={role === "vendor" ? "active" : ""}
               onClick={() => setRole("vendor")}
             >
-              <Store size={16} /> Vendor
+              <Store size={16} /> {t("login.vendor")}
             </button>
           </div>
 
           <form onSubmit={handleSubmit}>
             <label>
-              Email / Username
+              {t("login.emailLabel")}
               <input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -97,36 +101,36 @@ export function LoginPage() {
               />
             </label>
             <label>
-              Password
+              {t("login.passwordLabel")}
               <div className="password-wrap">
                 <input
                   type={show ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
+                  placeholder={t("login.passwordPlaceholder")}
                 />
                 <button type="button" onClick={() => setShow(!show)}>
-                  {show ? "Hide" : "Show"}
+                  {show ? t("login.hide") : t("login.show")}
                 </button>
               </div>
             </label>
             {error && <div className="form-error">{error}</div>}
             <div className="form-options">
               <label className="checkbox">
-                <input type="checkbox" /> <span>Remember me</span>
+                <input type="checkbox" /> <span>{t("login.rememberMe")}</span>
               </label>
-              <button type="button" className="link-btn">Forgot password?</button>
+              <button type="button" className="link-btn">{t("login.forgotPassword")}</button>
             </div>
             <button className="primary-btn full" type="submit">
-              Sign In <ArrowRight size={18} />
+              {t("login.signIn")} <ArrowRight size={18} />
             </button>
           </form>
 
-          <div className="divider"><span>OR</span></div>
+          <div className="divider"><span>{t("common.or")}</span></div>
           <button className="public-btn" onClick={handlePublicClick}>
-            <Globe2 size={18} /> Continue as Public User
+            <Globe2 size={18} /> {t("login.publicUser")}
           </button>
-          <div className="demo-hint">Demo: any non-empty credentials work in this frontend prototype.</div>
+          <div className="demo-hint">{t("login.demoHint")}</div>
         </div>
       </div>
     </div>
